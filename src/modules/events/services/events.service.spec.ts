@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { EventsService } from './events.service';
 import { MatchesService } from '../../matches/services/matches.service';
 import { Event, Team, EventType } from '../entities/event.entity';
+import { CustomLoggerService } from '../../../core/logger/logger.service';
 import { Subject } from 'rxjs';
 
 describe('EventsService', () => {
@@ -16,6 +17,12 @@ describe('EventsService', () => {
           provide: MatchesService,
           useValue: {
             scoreGoal: jest.fn(),
+          },
+        },
+        {
+          provide: CustomLoggerService, 
+          useValue: {
+            log: jest.fn(), 
           },
         },
       ],

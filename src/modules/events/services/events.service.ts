@@ -1,8 +1,9 @@
-import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable, Logger } from '@nestjs/common';
 import { Subject } from 'rxjs';
 import { Event, Team, EventType } from '../entities/event.entity';
 import { v4 as uuidv4 } from 'uuid';
 import { MatchesService } from '../../matches/services/matches.service';
+import { CustomLoggerService } from '../../../core/logger/logger.service';
 
 @Injectable()
 export class EventsService {
@@ -11,6 +12,7 @@ export class EventsService {
   constructor(
     @Inject(forwardRef(() => MatchesService))
     private readonly matchesService: MatchesService,
+    private logger: CustomLoggerService,
   ) {
     this.subscribeToEvents(this.matchesService);
   }
@@ -37,7 +39,11 @@ export class EventsService {
 
   private subscribeToEvents(matchesService: MatchesService): void {
     this.getEventObservable().subscribe((event) => {
-      matchesService.scoreGoal(event.matchId, event.scoringTeam);
+      try {
+        matchesService.scoreGoal(event.matchId, event.scoringTeam);
+      } catch (error) {
+        this.logger.error('Error processing event:', error);
+      }
     });
   }
 }

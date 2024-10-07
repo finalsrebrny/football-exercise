@@ -6,9 +6,12 @@ export class CustomLoggerService implements LoggerService {
     console.log(`[CustomLogger] ${message}`)
   }
   error(message: string, trace: string) {
-    console.log(`[CustomLogger] ${message}`)
+    console.error(`[CustomLogger] ${message}`)
+    if (trace) {
+      console.error(`[CustomLogger] Stack trace: ${trace}`);
+    }
   }
   warn(message: string) {
-    console.log(`[CustomLogger] ${message}`)
+    console.warn(`[CustomLogger] ${message}`)
   }
 }

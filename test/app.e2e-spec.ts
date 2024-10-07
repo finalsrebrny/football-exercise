@@ -46,6 +46,9 @@ describe('AppController (e2e)', () => {
       .expect(200);
 
     expect(res.body.data.matches.length).toBeGreaterThan(0);
+    const matches = res.body.data.matches;
+    const hasGoals = matches.some(match => match.homeScore > 0 || match.awayScore > 0);
+    expect(hasGoals).toBe(true);
 
     return request(app.getHttpServer())
       .post('/graphql')
