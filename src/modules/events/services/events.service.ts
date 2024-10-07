@@ -1,4 +1,4 @@
-import { forwardRef, Inject, Injectable, Logger } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { Subject } from 'rxjs';
 import { Event, Team, EventType } from '../entities/event.entity';
 import { v4 as uuidv4 } from 'uuid';
